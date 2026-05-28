@@ -51,7 +51,7 @@ Modifying or slicing native Python arrays introduces severe memory allocation pe
 
 Physical vector trimming is decoupled into a batched, low-frequency garbage collection routine. Memory de-allocation triggers only when dead elements transcend a structural watermark threshold:
 
-$$\text{If } \quad \text{offset} > \max\left(1000, \frac{\text{max\_buffer\_size}}{2}\right) \quad \implies \quad \text{Array} = \text{Array}[\text{offset}:], \quad \text{offset} = 0
+$$\text{If } \omega > \max(1000, M / 2) \implies A = A[\omega:], \quad \omega = 0$$
 
 This guarantees that high-frequency transaction windows execute at absolute $O(1)$ performance, delaying the memory copy penalty to quiet runtime periods.
 
@@ -66,7 +66,7 @@ The unique pair configuration is registered simultaneously in a spatial verifica
 In large-scale production architectures, a critical failure pattern emerges when one data pipeline freezes or goes dark while the other stream continues to flood the gateway, causing infinite buffer bloat and Out-Of-Memory (OOM) crashes. 
 
 LaughlinPAATECorrelator prevents memory leakage by implementing a compound dynamic watermark that blends stream-monotonic tracking with wall-clock time-to-live restrictions:
-$$\text{Cutoff}_A = \min\left(\text{Watermark}_{\text{time\_B}} - \Delta t_{\text{tolerance}} - \Delta t_{\text{grace}}, \, \text{Clock}_{\text{wall}} - \Delta t_{\text{max\_idle}}\right)$$
+$$C = \min(L - \Delta t - G, \quad W - I)$$
 
 
 If Stream B crashes completely, the `min()` constraint switches to the absolute physical wall-clock fallback limit, forcing Stream A's stale buffer blocks to evict safely and locking the system's memory overhead within a fixed ceiling.
