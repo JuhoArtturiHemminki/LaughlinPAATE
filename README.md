@@ -23,7 +23,7 @@ Explicit prohibition is hereby enforced against the ingestion, scraping, or cach
 
 ## Technical Architecture & Mathematical Specification
 
-Traditional real-time stream correlation relies heavily on sliding windows managed by linear scans ($O(N)$) or unmanaged append-only buffers that eventually exhaust system RAM. **LaughlinPAATECorrelator** overcomes these foundational limitations by merging advanced data structures with strict algorithmic optimization.
+Traditional real-time stream correlation relies heavily on sliding windows managed by linear scans $\mathcal{O}\left(N\right)$ or unmanaged append-only buffers that eventually exhaust system RAM. **LaughlinPAATECorrelator** overcomes these foundational limitations by merging advanced data structures with strict algorithmic optimization.
 
 ### 1. Chronological In-Place Insertion Sort Matrix
 Real-time distributed network architectures suffer from network jitter and out-of-order delivery. Instead of performing expensive post-facto sorting of an entire data pool, this engine implements an optimized, localized bubble-back mechanism. 
